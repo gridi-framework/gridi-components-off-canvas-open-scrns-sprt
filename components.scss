@@ -1,0 +1,37 @@
+$before-screen-prefix: null;
+
+@each $screen-prefix, $sizes in map-reverse(get-screens-map()) {
+    @media(min-width: get-screen-size($screen-prefix, min)) {
+        @if $gridi-components-off-canvas-open-screens-support-generate-from-classes and index($gridi-components-off-canvas-open-screens-support-from-classes-skip-screens, $screen-prefix) == null {
+            .off-canvas.#{$screen-prefix}-off-canvas-open {
+                @include include-off-canvas-open-style()
+            }
+        }
+
+        @if not $before-screen-prefix {
+            @if $gridi-components-off-canvas-open-screens-support-generate-only-classes and index($gridi-components-off-canvas-open-screens-support-only-classes-skip-screens, $screen-prefix) == null {
+                .off-canvas.only-#{$screen-prefix}-off-canvas-open {
+                    @include include-off-canvas-open-style()
+                }
+            }
+        }
+    }
+
+    @if $gridi-components-off-canvas-open-screens-support-generate-to-classes and index($gridi-components-off-canvas-open-screens-support-to-classes-skip-screens, $screen-prefix) == null {
+        @media(max-width: get-screen-size($screen-prefix, max)) {
+            .off-canvas.to-#{$screen-prefix}-off-canvas-open {
+                @include include-off-canvas-open-style()
+            }
+        }
+    }
+
+    @if $before-screen-prefix and $gridi-components-off-canvas-open-screens-support-generate-only-classes and index($gridi-components-off-canvas-open-screens-support-only-classes-skip-screens, $screen-prefix) == null {
+        @media(min-width: get-screen-size($screen-prefix, min)) and (max-width: get-screen-size($before-screen-prefix, max)) {
+            .off-canvas.only-#{$screen-prefix}-off-canvas-open {
+                @include include-off-canvas-open-style()
+            }
+        }
+    }
+
+    $before-screen-prefix: $screen-prefix;
+}
